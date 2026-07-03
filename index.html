@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Love Pet – Дом питомца</title>
+    <title>Love Pet</title>
     <style>
         * {
             margin: 0;
@@ -16,30 +16,24 @@
             font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: #1a1a2e;
             min-height: 100vh;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 12px;
-            transition: background 0.5s ease;
         }
 
-        /* Основной контейнер */
         .container {
             width: 100%;
             max-width: 420px;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
             border-radius: 40px;
             padding: 20px 16px 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.06);
             position: relative;
-            overflow: hidden;
         }
 
-        /* Часы (в углу) */
         .clock {
             position: absolute;
             top: 16px;
@@ -52,13 +46,10 @@
             font-size: 18px;
             font-weight: 700;
             color: #fff;
-            letter-spacing: 1px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 10;
             pointer-events: none;
         }
 
-        /* Шапка с валютой */
         .header {
             display: flex;
             justify-content: space-between;
@@ -93,7 +84,6 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
-        /* Комнаты (свайп) */
         .rooms-wrapper {
             overflow-x: auto;
             overflow-y: hidden;
@@ -121,11 +111,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: background 0.4s ease;
             border-radius: 28px;
         }
 
-        /* Комнаты – разные фоны */
         .room-bedroom {
             background: linear-gradient(145deg, #2c2c54, #1a1a2e);
         }
@@ -158,7 +146,6 @@
             margin-bottom: 12px;
         }
 
-        /* Аватар питомца в комнате */
         .pet-avatar {
             text-align: center;
             margin: 4px 0 8px;
@@ -177,11 +164,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
-        /* Шкалы */
         .stats {
             width: 100%;
             display: flex;
@@ -212,10 +203,18 @@
             transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             width: 70%;
         }
-        .stat-bar .fill.hunger { background: linear-gradient(90deg, #f093fb, #f5576c); }
-        .stat-bar .fill.clean { background: linear-gradient(90deg, #4facfe, #00f2fe); }
-        .stat-bar .fill.boredom { background: linear-gradient(90deg, #f6d365, #fda085); }
-        .stat-bar .fill.energy { background: linear-gradient(90deg, #a18cd1, #fbc2eb); }
+        .stat-bar .fill.hunger {
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+        }
+        .stat-bar .fill.clean {
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+        }
+        .stat-bar .fill.boredom {
+            background: linear-gradient(90deg, #f6d365, #fda085);
+        }
+        .stat-bar .fill.energy {
+            background: linear-gradient(90deg, #a18cd1, #fbc2eb);
+        }
         .stat-item .value {
             font-size: 12px;
             font-weight: 600;
@@ -224,7 +223,6 @@
             text-align: right;
         }
 
-        /* Кнопки действий */
         .actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -257,7 +255,6 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Нижнее меню */
         .bottom-menu {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -290,7 +287,6 @@
             color: #1a1a2e;
         }
 
-        /* Доска сообщений */
         .board-section {
             width: 100%;
             margin-top: 12px;
@@ -361,7 +357,6 @@
             cursor: pointer;
         }
 
-        /* Индикаторы комнат (точки) */
         .room-dots {
             display: flex;
             justify-content: center;
@@ -381,7 +376,6 @@
             border-radius: 4px;
         }
 
-        /* Тост */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -403,7 +397,6 @@
             opacity: 1;
         }
 
-        /* Адаптация под тёмную тему телефона (но мы уже тёмные) */
         @media (prefers-color-scheme: light) {
             body {
                 background: #f0edf5;
@@ -413,1643 +406,467 @@
                 backdrop-filter: blur(20px);
                 border-color: rgba(255, 255, 255, 0.3);
             }
-            .pet-name { color: #1a1a2e; }
-            .coins { background: #e0dce8; color: #1a1a2e; }
-            .room-desc { color: rgba(0, 0, 0, 0.5); }
-            .stat-item .value { color: #1a1a2e; }
-            .action-btn { background: rgba(255, 255, 255, 0.6); border-color: rgba(0, 0, 0, 0.05); color: #1a1a2e; }
-            .action-btn .label { color: rgba(0, 0, 0, 0.5); }
-            .menu-btn { background: rgba(255, 255, 255, 0.5); color: #1a1a2e; border-color: rgba(0, 0, 0, 0.05); }
-            .room-dot { background: rgba(0, 0, 0, 0.15); }
-            .room-dot.active { background: #a18cd1; }
-            .board-msg { background: rgba(0, 0, 0, 0.04); color: #1a1a2e; }
-            .board-msg.other { background: rgba(0, 0, 0, 0.06); }
-            .board-input-row input { background: rgba(0, 0, 0, 0.05); color: #1a1a2e; }
-            .board-input-row input::placeholder { color: rgba(0, 0, 0, 0.3); }
-            .clock { background: rgba(255, 255, 255, 0.8); color: #1a1a2e; border-color: rgba(0, 0, 0, 0.05); }
-            .room-bedroom { background: #e8e0f0; }
-            .room-kitchen { background: #f5e8e0; }
-            .room-bathroom { background: #dce8f5; }
-            .room-game { background: #e0f0e0; }
-            .room-garden { background: #ddf0dd; }
-            .pet-avatar .mood { color: #1a1a2e; }
-            .room-title { color: #1a1a2e; }
-            .stat-bar { background: rgba(0, 0, 0, 0.08); }
-            .stats .value { color: #1a1a2e; }
+            .pet-name {
+                color: #1a1a2e;
+            }
+            .coins {
+                background: #e0dce8;
+                color: #1a1a2e;
+            }
+            .room-desc {
+                color: rgba(0, 0, 0, 0.5);
+            }
+            .stat-item .value {
+                color: #1a1a2e;
+            }
+            .action-btn {
+                background: rgba(255, 255, 255, 0.6);
+                border-color: rgba(0, 0, 0, 0.05);
+                color: #1a1a2e;
+            }
+            .action-btn .label {
+                color: rgba(0, 0, 0, 0.5);
+            }
+            .menu-btn {
+                background: rgba(255, 255, 255, 0.5);
+                color: #1a1a2e;
+                border-color: rgba(0, 0, 0, 0.05);
+            }
+            .room-dot {
+                background: rgba(0, 0, 0, 0.15);
+            }
+            .room-dot.active {
+                background: #a18cd1;
+            }
+            .board-msg {
+                background: rgba(0, 0, 0, 0.04);
+                color: #1a1a2e;
+            }
+            .board-msg.other {
+                background: rgba(0, 0, 0, 0.06);
+            }
+            .board-input-row input {
+                background: rgba(0, 0, 0, 0.05);
+                color: #1a1a2e;
+            }
+            .board-input-row input::placeholder {
+                color: rgba(0, 0, 0, 0.3);
+            }
+            .clock {
+                background: rgba(255, 255, 255, 0.8);
+                color: #1a1a2e;
+                border-color: rgba(0, 0, 0, 0.05);
+            }
+            .room-bedroom {
+                background: #e8e0f0;
+            }
+            .room-kitchen {
+                background: #f5e8e0;
+            }
+            .room-bathroom {
+                background: #dce8f5;
+            }
+            .room-game {
+                background: #e0f0e0;
+            }
+            .room-garden {
+                background: #ddf0dd;
+            }
+            .pet-avatar .mood {
+                color: #1a1a2e;
+            }
+            .room-title {
+                color: #1a1a2e;
+            }
+            .stat-bar {
+                background: rgba(0, 0, 0, 0.08);
+            }
+            .stats .value {
+                color: #1a1a2e;
+            }
         }
 
-        /* Убираем скролл */
-        ::-webkit-scrollbar { width: 0; background: transparent; }
+        ::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
     </style>
 </head>
 <body>
 
-<div class="container" id="app">
-    <!-- Часы -->
-    <div class="clock" id="clockDisplay">--:--</div>
+    <div class="container" id="app">
+        <div class="clock" id="clockDisplay">--:--</div>
 
-    <!-- Шапка -->
-    <div class="header">
-        <div class="pet-name">
-            <span id="petEmoji">🐼</span>
-            <span id="petName">Пышка</span>
+        <div class="header">
+            <div class="pet-name">
+                <span id="petEmoji">🐼</span>
+                <span id="petName">Пышка</span>
+            </div>
+            <div class="coins">
+                ❤️‍🔥 <span id="coinsCount">0</span>
+            </div>
         </div>
-        <div class="coins">
-            ❤️‍🔥 <span id="coinsCount">0</span>
+
+        <div class="rooms-wrapper" id="roomsWrapper">
+            <div class="room room-bedroom">
+                <div class="room-icon">🛏️</div>
+                <div class="room-title">Спальня</div>
+                <div class="room-desc">🕒 Здесь питомец отдыхает</div>
+                <div class="pet-avatar">
+                    <span class="emoji" id="avatarEmoji">🐼</span>
+                    <div class="mood" id="moodText">😊 Счастлив</div>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="icon">🍖</span>
+                        <div class="stat-bar"><div class="fill hunger" id="hungerBar" style="width:80%"></div></div>
+                        <span class="value" id="hungerValue">80%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="icon">🧼</span>
+                        <div class="stat-bar"><div class="fill clean" id="cleanBar" style="width:60%"></div></div>
+                        <span class="value" id="cleanValue">60%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="icon">🎮</span>
+                        <div class="stat-bar"><div class="fill boredom" id="boredomBar" style="width:40%"></div></div>
+                        <span class="value" id="boredomValue">40%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="icon">⚡</span>
+                        <div class="stat-bar"><div class="fill energy" id="energyBar" style="width:90%"></div></div>
+                        <span class="value" id="energyValue">90%</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
+                    <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
+                    <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
+                    <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
+                </div>
+                <div class="bottom-menu">
+                    <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                    <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                    <button class="menu-btn" data-action="sleep">💤 Спать</button>
+                </div>
+            </div>
+
+            <div class="room room-kitchen">
+                <div class="room-icon">🍳</div>
+                <div class="room-title">Кухня</div>
+                <div class="room-desc">🍽️ Здесь готовят еду</div>
+                <div class="pet-avatar">
+                    <span class="emoji" id="avatarEmoji2">🐼</span>
+                    <div class="mood" id="moodText2">😊 Счастлив</div>
+                </div>
+                <div class="stats">
+                    <div class="stat-item"><span class="icon">🍖</span><div class="stat-bar"><div class="fill hunger" style="width:80%"></div></div><span class="value">80%</span></div>
+                    <div class="stat-item"><span class="icon">🧼</span><div class="stat-bar"><div class="fill clean" style="width:60%"></div></div><span class="value">60%</span></div>
+                    <div class="stat-item"><span class="icon">🎮</span><div class="stat-bar"><div class="fill boredom" style="width:40%"></div></div><span class="value">40%</span></div>
+                    <div class="stat-item"><span class="icon">⚡</span><div class="stat-bar"><div class="fill energy" style="width:90%"></div></div><span class="value">90%</span></div>
+                </div>
+                <div class="actions">
+                    <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
+                    <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
+                    <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
+                    <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
+                </div>
+                <div class="bottom-menu">
+                    <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                    <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                    <button class="menu-btn" data-action="sleep">💤 Спать</button>
+                </div>
+            </div>
+
+            <div class="room room-bathroom">
+                <div class="room-icon">🛁</div>
+                <div class="room-title">Ванная</div>
+                <div class="room-desc">🧼 Здесь питомец становится чистым</div>
+                <div class="pet-avatar">
+                    <span class="emoji" id="avatarEmoji3">🐼</span>
+                    <div class="mood" id="moodText3">😊 Счастлив</div>
+                </div>
+                <div class="stats">
+                    <div class="stat-item"><span class="icon">🍖</span><div class="stat-bar"><div class="fill hunger" style="width:80%"></div></div><span class="value">80%</span></div>
+                    <div class="stat-item"><span class="icon">🧼</span><div class="stat-bar"><div class="fill clean" style="width:60%"></div></div><span class="value">60%</span></div>
+                    <div class="stat-item"><span class="icon">🎮</span><div class="stat-bar"><div class="fill boredom" style="width:40%"></div></div><span class="value">40%</span></div>
+                    <div class="stat-item"><span class="icon">⚡</span><div class="stat-bar"><div class="fill energy" style="width:90%"></div></div><span class="value">90%</span></div>
+                </div>
+                <div class="actions">
+                    <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
+                    <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
+                    <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
+                    <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
+                </div>
+                <div class="bottom-menu">
+                    <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                    <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                    <button class="menu-btn" data-action="sleep">💤 Спать</button>
+                </div>
+            </div>
+
+            <div class="room room-game">
+                <div class="room-icon">🎮</div>
+                <div class="room-title">Игровая комната</div>
+                <div class="room-desc">🎯 Здесь играют и общаются</div>
+                <div class="pet-avatar">
+                    <span class="emoji" id="avatarEmoji4">🐼</span>
+                    <div class="mood" id="moodText4">😊 Счастлив</div>
+                </div>
+                <div class="stats">
+                    <div class="stat-item"><span class="icon">🍖</span><div class="stat-bar"><div class="fill hunger" style="width:80%"></div></div><span class="value">80%</span></div>
+                    <div class="stat-item"><span class="icon">🧼</span><div class="stat-bar"><div class="fill clean" style="width:60%"></div></div><span class="value">60%</span></div>
+                    <div class="stat-item"><span class="icon">🎮</span><div class="stat-bar"><div class="fill boredom" style="width:40%"></div></div><span class="value">40%</span></div>
+                    <div class="stat-item"><span class="icon">⚡</span><div class="stat-bar"><div class="fill energy" style="width:90%"></div></div><span class="value">90%</span></div>
+                </div>
+                <div class="actions">
+                    <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
+                    <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
+                    <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
+                    <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
+                </div>
+                <div class="bottom-menu">
+                    <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                    <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                    <button class="menu-btn" data-action="sleep">💤 Спать</button>
+                </div>
+                <div class="board-section">
+                    <div class="title">📝 Доска для партнёра</div>
+                    <div class="board-messages" id="boardMessages">
+                        <div class="board-msg me">Ты: Привет! ❤️</div>
+                        <div class="board-msg other">Партнёр: И тебе!</div>
+                    </div>
+                    <div class="board-input-row">
+                        <input type="text" id="boardInput" placeholder="Написать партнёру...">
+                        <button onclick="sendBoardMessage()">📤</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="room room-garden">
+                <div class="room-icon">🌿</div>
+                <div class="room-title">Улица</div>
+                <div class="room-desc">☀️ Здесь питомец гуляет</div>
+                <div class="pet-avatar">
+                    <span class="emoji" id="avatarEmoji5">🐼</span>
+                    <div class="mood" id="moodText5">😊 Счастлив</div>
+                </div>
+                <div class="stats">
+                    <div class="stat-item"><span class="icon">🍖</span><div class="stat-bar"><div class="fill hunger" style="width:80%"></div></div><span class="value">80%</span></div>
+                    <div class="stat-item"><span class="icon">🧼</span><div class="stat-bar"><div class="fill clean" style="width:60%"></div></div><span class="value">60%</span></div>
+                    <div class="stat-item"><span class="icon">🎮</span><div class="stat-bar"><div class="fill boredom" style="width:40%"></div></div><span class="value">40%</span></div>
+                    <div class="stat-item"><span class="icon">⚡</span><div class="stat-bar"><div class="fill energy" style="width:90%"></div></div><span class="value">90%</span></div>
+                </div>
+                <div class="actions">
+                    <button class="action-btn" data-action="walk_together"><span>🚶</span><span class="label">Гулять</span></button>
+                    <button class="action-btn" data-action="play_together"><span>🎮</span><span class="label">Играть</span></button>
+                    <button class="action-btn" data-action="talk_together"><span>💬</span><span class="label">Общаться</span></button>
+                </div>
+                <div class="bottom-menu">
+                    <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                    <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                    <button class="menu-btn" data-action="sleep">💤 Спать</button>
+                </div>
+            </div>
         </div>
+
+        <div class="room-dots" id="roomDots">
+            <span class="room-dot active" data-index="0"></span>
+            <span class="room-dot" data-index="1"></span>
+            <span class="room-dot" data-index="2"></span>
+            <span class="room-dot" data-index="3"></span>
+            <span class="room-dot" data-index="4"></span>
+        </div>
+
+        <div class="toast" id="toast"></div>
     </div>
 
-    <!-- Комнаты (свайп) -->
-    <div class="rooms-wrapper" id="roomsWrapper">
-        <!-- Спальня -->
-        <div class="room room-bedroom" data-room="bedroom">
-            <div class="room-icon">🛏️</div>
-            <div class="room-title">Спальня</div>
-            <div class="room-desc">🕒 Здесь питомец отдыхает</div>
-            <div class="pet-avatar">
-                <span class="emoji" id="avatarEmoji">🐼</span>
-                <div class="mood" id="moodText">😊 Счастлив</div>
-            </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="icon">🍖</span>
-                    <div class="stat-bar"><div class="fill hunger" id="hungerBar" style="width:80%"></div></div>
-                    <span class="value" id="hungerValue">80%</span>
-                </div>
-                <div class="stat-item">
-                    <span class="icon">🧼</span>
-                    <div class="stat-bar"><div class="fill clean" id="cleanBar" style="width:60%"></div></div>
-                    <span class="value" id="cleanValue">60%</span>
-                </div>
-                <div class="stat-item">
-                    <span class="icon">🎮</span>
-                    <div class="stat-bar"><div class="fill boredom" id="boredomBar" style="width:40%"></div></div>
-                    <span class="value" id="boredomValue">40%</span>
-                </div>
-                <div class="stat-item">
-                    <span class="icon">⚡</span>
-                    <div class="stat-bar"><div class="fill energy" id="energyBar" style="width:90%"></div></div>
-                    <span class="value" id="energyValue">90%</span>
-                </div>
-            </div>
-            <div class="actions">
-                <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
-                <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
-                <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
-                <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
-            </div>
-            <div class="bottom-menu">
-                <button class="menu-btn" data-action="shop">👗 Магазин</button>
-                <button class="menu-btn primary" data-action="status">📊 Статус</button>
-                <button class="menu-btn" data-action="sleep">💤 Спать</button>
-            </div>
-        </div>
-
-        <!-- Кухня -->
-        <div class="room room-kitchen" data-room="kitchen">
-            <div class="room-icon">🍳</div>
-            <div class="room-title">Кухня</div>
-            <div class="room-desc">🍽️ Здесь готовят еду</div>
-            <div class="pet-avatar">
-                <span class="emoji" id="avatarEmoji2">🐼</span>
-                <div class="mood" id="moodText2">😊 Счастлив</div>
-            </div>
-            <div class="stats" id="statsClone">
-                <!-- Клонируются из спальни через JS -->
-            </div>
-            <div class="actions">
-                <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
-                <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
-                <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
-                <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
-            </div>
-            <div class="bottom-menu">
-                <button class="menu-btn" data-action="shop">👗 Магазин</button>
-                <button class="menu-btn primary" data-action="status">📊 Статус</button>
-                <button class="menu-btn" data-action="sleep">💤 Спать</button>
-            </div>
-        </div>
-
-        <!-- Ванная -->
-        <div class="room room-bathroom" data-room="bathroom">
-            <div class="room-icon">🛁</div>
-            <div class="room-title">Ванная</div>
-            <div class="room-desc">🧼 Здесь питомец становится чистым</div>
-            <div class="pet-avatar">
-                <span class="emoji" id="avatarEmoji3">🐼</span>
-                <div class="mood" id="moodText3">😊 Счастлив</div>
-            </div>
-            <div class="stats" id="statsClone2"></div>
-            <div class="actions">
-                <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
-                <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
-                <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
-                <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
-            </div>
-            <div class="bottom-menu">
-                <button class="menu-btn" data-action="shop">👗 Магазин</button>
-                <button class="menu-btn primary" data-action="status">📊 Статус</button>
-                <button class="menu-btn" data-action="sleep">💤 Спать</button>
-            </div>
-        </div>
-
-        <!-- Игровая комната (с доской) -->
-        <div class="room room-game" data-room="game">
-            <div class="room-icon">🎮</div>
-            <div class="room-title">Игровая комната</div>
-            <div class="room-desc">🎯 Здесь играют и общаются</div>
-            <div class="pet-avatar">
-                <span class="emoji" id="avatarEmoji4">🐼</span>
-                <div class="mood" id="moodText4">😊 Счастлив</div>
-            </div>
-            <div class="stats" id="statsClone3"></div>
-            <div class="actions">
-                <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
-                <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
-                <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
-                <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
-            </div>
-            <div class="bottom-menu">
-                <button class="menu-btn" data-action="shop">👗 Магазин</button>
-                <button class="menu-btn primary" data-action="status">📊 Статус</button>
-                <button class="menu-btn" data-action="sleep">💤 Спать</button>
-            </div>
-
-            <!-- Доска -->
-            <div class="board-section">
-                <div class="title">📝 Доска для партнёра</div>
-                <div class="board-messages" id="boardMessages">
-                    <div class="board-msg me">Ты: Привет! ❤️</div>
-                    <div class="board-msg other">Партнёр: И тебе!</div>
-                </div>
-                <div class="board-input-row">
-                    <input type="text" id="boardInput" placeholder="Написать партнёру...">
-                    <button onclick="sendBoardMessage()">📤</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Улица -->
-        <div class="room room-garden" data-room="garden">
-            <div class="room-icon">🌿</div>
-            <div class="room-title">Улица</div>
-            <div class="room-desc">☀️ Здесь питомец гуляет</div>
-            <div class="pet-avatar">
-                <span class="emoji" id="avatarEmoji5">🐼</span>
-                <div class="mood" id="moodText5">😊 Счастлив</div>
-            </div>
-            <div class="stats" id="statsClone4"></div>
-            <div class="actions">
-                <button class="action-btn" data-action="walk_together"><span>🚶</span><span class="label">Гулять</span></button>
-                <button class="action-btn" data-action="play_together"><span>🎮</span><span class="label">Играть</span></button>
-                <button class="action-btn" data-action="talk_together"><span>💬</span><span class="label">Общаться</span></button>
-            </div>
-            <div class="bottom-menu">
-                <button class="menu-btn" data-action="shop">👗 Магазин</button>
-                <button class="menu-btn primary" data-action="status">📊 Статус</button>
-                <button class="menu-btn" data-action="sleep">💤 Спать</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Индикаторы комнат -->
-    <div class="room-dots" id="roomDots">
-        <span class="room-dot active" data-index="0"></span>
-        <span class="room-dot" data-index="1"></span>
-        <span class="room-dot" data-index="2"></span>
-        <span class="room-dot" data-index="3"></span>
-        <span class="room-dot" data-index="4"></span>
-    </div>
-
-    <!-- Уведомление -->
-    <div class="toast" id="toast"></div>
-</div>
-
-<script>
-    // === Telegram WebApp ===
-    let tg = null;
-    if (window.Telegram && Telegram.WebApp) {
-        tg = Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-    }
-
-    // === Отправка действий ===
-    function sendAction(action) {
-        if (tg) {
-            tg.sendData(JSON.stringify({ action: action }));
-            showToast('⏳ Отправляю...');
-        } else {
-            showToast('🔧 Тест: ' + action);
+    <script>
+        // === Telegram WebApp ===
+        let tg = null;
+        if (window.Telegram && Telegram.WebApp) {
+            tg = Telegram.WebApp;
+            tg.ready();
+            tg.expand();
         }
-    }
 
-    // === Назначение обработчиков на кнопки ===
-    document.querySelectorAll('[data-action]').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const action = this.dataset.action;
-            sendAction(action);
-        });
-    });
-
-    // === Доска сообщений ===
-    function sendBoardMessage() {
-        const input = document.getElementById('boardInput');
-        const text = input.value.trim();
-        if (!text) return;
-        if (tg) {
-            tg.sendData(JSON.stringify({
-                action: 'board',
-                message: text
-            }));
-        }
-        const board = document.getElementById('boardMessages');
-        const msg = document.createElement('div');
-        msg.className = 'board-msg me';
-        msg.textContent = 'Ты: ' + text;
-        board.appendChild(msg);
-        board.scrollTop = board.scrollHeight;
-        input.value = '';
-        showToast('💬 Отправлено!');
-    }
-
-    // === Приём данных от бота ===
-    if (tg) {
-        tg.onEvent('data', function(data) {
-            try {
-                const parsed = JSON.parse(data);
-                console.log('Получено от бота:', parsed);
-
-                if (parsed.type === 'update') {
-                    updateUI(parsed.data);
-                    showToast('✅ Обновлено!');
-                } else if (parsed.type === 'board') {
-                    const board = document.getElementById('boardMessages');
-                    const msg = document.createElement('div');
-                    msg.className = 'board-msg other';
-                    msg.textContent = (parsed.from || 'Партнёр') + ': ' + parsed.text;
-                    board.appendChild(msg);
-                    board.scrollTop = board.scrollHeight;
-                }
-            } catch (e) {
-                console.error('Ошибка обработки данных:', e);
+        // === Отправка действий ===
+        function sendAction(action) {
+            if (tg) {
+                tg.sendData(JSON.stringify({ action: action }));
+                showToast('⏳ Отправляю...');
+            } else {
+                showToast('🔧 Тест: ' + action);
             }
+        }
+
+        // === Назначение обработчиков на кнопки ===
+        document.querySelectorAll('[data-action]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.dataset.action;
+                sendAction(action);
+            });
         });
-    }
 
-    // === Обновление интерфейса ===
-    function updateUI(data) {
-        // Обновляем эмодзи и имя
-        if (data.pet_emoji) {
-            document.querySelectorAll('#petEmoji, #avatarEmoji, #avatarEmoji2, #avatarEmoji3, #avatarEmoji4, #avatarEmoji5')
-                .forEach(el => el.textContent = data.pet_emoji);
-        }
-        if (data.pet_name) {
-            document.getElementById('petName').textContent = data.pet_name;
-        }
-        if (data.coins !== undefined) {
-            document.getElementById('coinsCount').textContent = data.coins;
-        }
-        if (data.mood_text) {
-            document.querySelectorAll('#moodText, #moodText2, #moodText3, #moodText4, #moodText5')
-                .forEach(el => el.textContent = data.mood_text);
+        // === Доска сообщений ===
+        function sendBoardMessage() {
+            const input = document.getElementById('boardInput');
+            const text = input.value.trim();
+            if (!text) return;
+            if (tg) {
+                tg.sendData(JSON.stringify({
+                    action: 'board',
+                    message: text
+                }));
+            }
+            const board = document.getElementById('boardMessages');
+            const msg = document.createElement('div');
+            msg.className = 'board-msg me';
+            msg.textContent = 'Ты: ' + text;
+            board.appendChild(msg);
+            board.scrollTop = board.scrollHeight;
+            input.value = '';
+            showToast('💬 Отправлено!');
         }
 
-        // Шкалы
-        if (data.hunger !== undefined) {
-            document.querySelectorAll('#hungerBar').forEach(el => el.style.width = data.hunger + '%');
-            document.querySelectorAll('#hungerValue').forEach(el => el.textContent = data.hunger + '%');
-        }
-        if (data.clean !== undefined) {
-            document.querySelectorAll('#cleanBar').forEach(el => el.style.width = data.clean + '%');
-            document.querySelectorAll('#cleanValue').forEach(el => el.textContent = data.clean + '%');
-        }
-        if (data.boredom !== undefined) {
-            document.querySelectorAll('#boredomBar').forEach(el => el.style.width = data.boredom + '%');
-            document.querySelectorAll('#boredomValue').forEach(el => el.textContent = data.boredom + '%');
-        }
-        if (data.energy !== undefined) {
-            document.querySelectorAll('#energyBar').forEach(el => el.style.width = data.energy + '%');
-            document.querySelectorAll('#energyValue').forEach(el => el.textContent = data.energy + '%');
-        }
-    }
+        // === Приём данных от бота ===
+        if (tg) {
+            tg.onEvent('data', function(data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    console.log('Получено от бота:', parsed);
 
-    // === Часы ===
-    function updateClock() {
-        const now = new Date();
-        const h = String(now.getHours()).padStart(2, '0');
-        const m = String(now.getMinutes()).padStart(2, '0');
-        document.getElementById('clockDisplay').textContent = h + ':' + m;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+                    if (parsed.type === 'update') {
+                        updateUI(parsed.data);
+                        showToast('✅ Обновлено!');
+                    } else if (parsed.type === 'board') {
+                        const board = document.getElementById('boardMessages');
+                        const msg = document.createElement('div');
+                        msg.className = 'board-msg other';
+                        msg.textContent = (parsed.from || 'Партнёр') + ': ' + parsed.text;
+                        board.appendChild(msg);
+                        board.scrollTop = board.scrollHeight;
+                    }
+                } catch (e) {
+                    console.error('Ошибка обработки данных:', e);
+                }
+            });
+        }
 
-    // === Индикатор комнат (свайп) ===
-    const wrapper = document.getElementById('roomsWrapper');
-    const dots = document.querySelectorAll('.room-dot');
+        // === Обновление интерфейса ===
+        function updateUI(data) {
+            if (data.pet_emoji) {
+                document.querySelectorAll('#petEmoji, #avatarEmoji, #avatarEmoji2, #avatarEmoji3, #avatarEmoji4, #avatarEmoji5')
+                    .forEach(el => el.textContent = data.pet_emoji);
+            }
+            if (data.pet_name) {
+                document.getElementById('petName').textContent = data.pet_name;
+            }
+            if (data.coins !== undefined) {
+                document.getElementById('coinsCount').textContent = data.coins;
+            }
+            if (data.mood_text) {
+                document.querySelectorAll('#moodText, #moodText2, #moodText3, #moodText4, #moodText5')
+                    .forEach(el => el.textContent = data.mood_text);
+            }
+            if (data.hunger !== undefined) {
+                document.querySelectorAll('#hungerBar').forEach(el => el.style.width = data.hunger + '%');
+                document.querySelectorAll('#hungerValue').forEach(el => el.textContent = data.hunger + '%');
+            }
+            if (data.clean !== undefined) {
+                document.querySelectorAll('#cleanBar').forEach(el => el.style.width = data.clean + '%');
+                document.querySelectorAll('#cleanValue').forEach(el => el.textContent = data.clean + '%');
+            }
+            if (data.boredom !== undefined) {
+                document.querySelectorAll('#boredomBar').forEach(el => el.style.width = data.boredom + '%');
+                document.querySelectorAll('#boredomValue').forEach(el => el.textContent = data.boredom + '%');
+            }
+            if (data.energy !== undefined) {
+                document.querySelectorAll('#energyBar').forEach(el => el.style.width = data.energy + '%');
+                document.querySelectorAll('#energyValue').forEach(el => el.textContent = data.energy + '%');
+            }
+        }
 
-    wrapper.addEventListener('scroll', function() {
-        const index = Math.round(this.scrollLeft / this.clientWidth);
+        // === Часы ===
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clockDisplay').textContent = h + ':' + m;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // === Индикатор комнат (свайп) ===
+        const wrapper = document.getElementById('roomsWrapper');
+        const dots = document.querySelectorAll('.room-dot');
+
+        wrapper.addEventListener('scroll', function() {
+            const index = Math.round(this.scrollLeft / this.clientWidth);
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        });
+
         dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
+            dot.addEventListener('click', function() {
+                wrapper.scrollTo({ left: i * wrapper.clientWidth, behavior: 'smooth' });
+            });
         });
-    });
 
-    // Клик по точке для переключения комнаты
-    dots.forEach((dot, i) => {
-        dot.addEventListener('click', function() {
-            wrapper.scrollTo({ left: i * wrapper.clientWidth, behavior: 'smooth' });
-        });
-    });
-
-    // === Уведомления ===
-    function showToast(text) {
-        const toast = document.getElementById('toast');
-        toast.textContent = text;
-        toast.classList.add('show');
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
-    }
-
-    // === Отправка геолокации ===
-    function sendLocation() {
-        if (!navigator.geolocation) {
-            showToast('❌ Геолокация не поддерживается');
-            return;
-        }
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                const lat = pos.coords.latitude;
-                const lon = pos.coords.longitude;
-                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                if (tg) {
-                    tg.sendData(JSON.stringify({
-                        action: 'location',
-                        latitude: lat,
-                        longitude: lon,
-                        timezone: tz
-                    }));
-                    showToast('🌍 Геолокация отправлена!');
-                } else {
-                    showToast('🔧 Тест: широта ' + lat + ', долгота ' + lon);
-                }
-            },
-            (err) => {
-                showToast('❌ Не удалось определить геолокацию');
-                console.error(err);
-            },
-            { enableHighAccuracy: true, timeout: 10000 }
-        );
-    }
-
-    // Отправляем геолокацию при загрузке (если есть Telegram WebApp)
-    if (tg) {
-        setTimeout(sendLocation, 1500);
-    }
-
-    // === Enter для доски ===
-    document.getElementById('boardInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') sendBoardMessage();
-    });
-
-    console.log('❤️ Love Pet WebApp загружена!');
-</script>
-
-</body>
-                </html>        .action-btn {
-            background: white;
-            border: none;
-            padding: 14px 0;
-            border-radius: 20px;
-            font-size: 28px;
-            box-shadow: 0 4px 15px rgba(149, 107, 181, 0.15);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-            color: #4a2b5e;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        .action-btn:active { transform: scale(0.92); }
-        .action-btn .label { font-size: 11px; font-weight: 500; color: #7a5f8e; }
-        .bottom-menu {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .menu-btn {
-            background: white;
-            border: none;
-            padding: 12px;
-            border-radius: 18px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #4a2b5e;
-            box-shadow: 0 4px 15px rgba(149, 107, 181, 0.12);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .menu-btn:active { transform: scale(0.95); }
-        .menu-btn.primary { background: linear-gradient(135deg, #a18cd1, #fbc2eb); color: #4a2b5e; }
-        .board-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid rgba(149, 107, 181, 0.15);
-        }
-        .board-section .title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #7a5f8e;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .board-messages {
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 16px;
-            padding: 12px;
-            max-height: 90px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .board-msg {
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.5);
-            color: #4a2b5e;
-        }
-        .board-msg.me { background: #a18cd1; color: white; align-self: flex-end; }
-        .board-msg.other { background: #f0ebf5; align-self: flex-start; }
-        .board-input-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .board-input-row input {
-            flex: 1;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 16px;
-            background: white;
-            font-size: 14px;
-            outline: none;
-            color: #4a2b5e;
-        }
-        .board-input-row button {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
-            color: #4a2b5e;
-            font-weight: 700;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        @media (prefers-color-scheme: dark) {
-            body { background: linear-gradient(145deg, #1a1a2e, #2d1f3a); }
-            .container { background: rgba(30, 20, 40, 0.9); border-color: rgba(255, 255, 255, 0.08); }
-            .pet-name { color: #e8dff5; }
-            .stat-item .value { color: #e8dff5; }
-            .action-btn { background: rgba(255, 255, 255, 0.06); color: #e8dff5; border-color: rgba(255, 255, 255, 0.08); }
-            .action-btn .label { color: #b8a5c9; }
-            .menu-btn { background: rgba(255, 255, 255, 0.06); color: #e8dff5; border-color: rgba(255, 255, 255, 0.08); }
-            .board-messages { background: rgba(255, 255, 255, 0.06); }
-            .board-msg { background: rgba(255, 255, 255, 0.08); color: #e8dff5; }
-            .board-msg.other { background: rgba(255, 255, 255, 0.1); }
-            .board-input-row input { background: rgba(255, 255, 255, 0.08); color: #e8dff5; }
-            .board-input-row input::placeholder { color: #7a5f8e; }
-        }
-        ::-webkit-scrollbar { width: 0; background: transparent; }
-        .container { animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-            z-index: 999;
-        }
-        .toast.show { opacity: 1; }
-    </style>
-</head>
-<body>
-
-<div class="container" id="app">
-    <div class="header">
-        <div class="pet-name">
-            <span id="petEmoji">🐼</span>
-            <span id="petName">Пышка</span>
-        </div>
-        <div class="coins">
-            ❤️‍🔥 <span id="coinsCount">0</span>
-        </div>
-    </div>
-
-    <div class="pet-avatar">
-        <span class="emoji" id="avatarEmoji">🐼</span>
-        <div class="mood" id="moodText">😊 Счастлив</div>
-    </div>
-
-    <div class="stats">
-        <div class="stat-item">
-            <span class="icon">🍖</span>
-            <div class="stat-bar"><div class="fill hunger" id="hungerBar" style="width: 80%"></div></div>
-            <span class="value" id="hungerValue">80%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">🧼</span>
-            <div class="stat-bar"><div class="fill clean" id="cleanBar" style="width: 60%"></div></div>
-            <span class="value" id="cleanValue">60%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">🎮</span>
-            <div class="stat-bar"><div class="fill boredom" id="boredomBar" style="width: 40%"></div></div>
-            <span class="value" id="boredomValue">40%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">⚡</span>
-            <div class="stat-bar"><div class="fill energy" id="energyBar" style="width: 90%"></div></div>
-            <span class="value" id="energyValue">90%</span>
-        </div>
-    </div>
-
-    <div class="actions">
-        <button class="action-btn" data-action="feed">
-            🍽️
-            <span class="label">Кормить</span>
-        </button>
-        <button class="action-btn" data-action="play">
-            🎾
-            <span class="label">Играть</span>
-        </button>
-        <button class="action-btn" data-action="wash">
-            🛁
-            <span class="label">Мыть</span>
-        </button>
-        <button class="action-btn" data-action="cuddle">
-            🤗
-            <span class="label">Обнять</span>
-        </button>
-    </div>
-
-    <div class="bottom-menu">
-        <button class="menu-btn" data-action="shop">👗 Магазин</button>
-        <button class="menu-btn primary" data-action="status">📊 Статус</button>
-        <button class="menu-btn" data-action="sleep">💤 Спать</button>
-    </div>
-
-    <div class="board-section">
-        <div class="title">📝 Доска для партнёра</div>
-        <div class="board-messages" id="boardMessages">
-            <div class="board-msg me">Ты: Привет! ❤️</div>
-            <div class="board-msg other">Партнёр: И тебе!</div>
-        </div>
-        <div class="board-input-row">
-            <input type="text" id="boardInput" placeholder="Написать партнёру...">
-            <button onclick="sendBoardMessage()">📤</button>
-        </div>
-    </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-    // === Telegram WebApp ===
-    let tg = null;
-    if (window.Telegram && Telegram.WebApp) {
-        tg = Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-    }
-
-    // === Отправка действий ===
-    function sendAction(action) {
-        if (tg) {
-            tg.sendData(JSON.stringify({ action: action }));
-            showToast('⏳ Отправляю...');
-        } else {
-            showToast('🔧 Режим теста: ' + action);
-        }
-    }
-
-    // === Назначение обработчиков на кнопки ===
-    document.querySelectorAll('[data-action]').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const action = this.dataset.action;
-            sendAction(action);
-        });
-    });
-
-    // === Доска сообщений ===
-    function sendBoardMessage() {
-        const input = document.getElementById('boardInput');
-        const text = input.value.trim();
-        if (!text) return;
-
-        if (tg) {
-            tg.sendData(JSON.stringify({
-                action: 'board',
-                message: text
-            }));
+        // === Уведомления ===
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            toast.textContent = text;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
         }
 
-        const board = document.getElementById('boardMessages');
-        const msg = document.createElement('div');
-        msg.className = 'board-msg me';
-        msg.textContent = 'Ты: ' + text;
-        board.appendChild(msg);
-        board.scrollTop = board.scrollHeight;
-        input.value = '';
-        showToast('💬 Отправлено!');
-    }
-
-    // === Приём данных от бота ===
-    if (tg) {
-        tg.onEvent('data', function(data) {
-            try {
-                const parsed = JSON.parse(data);
-                console.log('Получено от бота:', parsed);
-                
-                if (parsed.type === 'update') {
-                    updateUI(parsed.data);
-                    showToast('✅ Обновлено!');
-                } else if (parsed.type === 'board') {
-                    const board = document.getElementById('boardMessages');
-                    const msg = document.createElement('div');
-                    msg.className = 'board-msg other';
-                    msg.textContent = (parsed.from || 'Партнёр') + ': ' + parsed.text;
-                    board.appendChild(msg);
-                    board.scrollTop = board.scrollHeight;
-                }
-            } catch (e) {
-                console.error('Ошибка обработки данных:', e);
+        // === Отправка геолокации ===
+        function sendLocation() {
+            if (!navigator.geolocation) {
+                showToast('❌ Геолокация не поддерживается');
+                return;
             }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    if (tg) {
+                        tg.sendData(JSON.stringify({
+                            action: 'location',
+                            latitude: lat,
+                            longitude: lon,
+                            timezone: tz
+                        }));
+                        showToast('🌍 Геолокация отправлена!');
+                    } else {
+                        showToast('🔧 Тест: широта ' + lat + ', долгота ' + lon);
+                    }
+                },
+                (err) => {
+                    showToast('❌ Не удалось определить геолокацию');
+                    console.error(err);
+                }, { enableHighAccuracy: true, timeout: 10000 }
+            );
+        }
+
+        if (tg) {
+            setTimeout(sendLocation, 1500);
+        }
+
+        // === Enter для доски ===
+        document.getElementById('boardInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendBoardMessage();
         });
-    }
 
-    // === Обновление интерфейса ===
-    function updateUI(data) {
-        if (data.pet_emoji) document.getElementById('petEmoji').textContent = data.pet_emoji;
-        if (data.pet_name) document.getElementById('petName').textContent = data.pet_name;
-        if (data.avatar_emoji) document.getElementById('avatarEmoji').textContent = data.avatar_emoji;
-        if (data.coins !== undefined) document.getElementById('coinsCount').textContent = data.coins;
-        if (data.mood_text) document.getElementById('moodText').textContent = data.mood_text;
-
-        if (data.hunger !== undefined) {
-            document.getElementById('hungerBar').style.width = data.hunger + '%';
-            document.getElementById('hungerValue').textContent = data.hunger + '%';
-        }
-        if (data.clean !== undefined) {
-            document.getElementById('cleanBar').style.width = data.clean + '%';
-            document.getElementById('cleanValue').textContent = data.clean + '%';
-        }
-        if (data.boredom !== undefined) {
-            document.getElementById('boredomBar').style.width = data.boredom + '%';
-            document.getElementById('boredomValue').textContent = data.boredom + '%';
-        }
-        if (data.energy !== undefined) {
-            document.getElementById('energyBar').style.width = data.energy + '%';
-            document.getElementById('energyValue').textContent = data.energy + '%';
-        }
-    }
-
-    // === Уведомления ===
-    function showToast(text) {
-        const toast = document.getElementById('toast');
-        toast.textContent = text;
-        toast.classList.add('show');
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
-    }
-
-    // === Enter для доски ===
-    document.getElementById('boardInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') sendBoardMessage();
-    });
-
-    console.log('❤️ Love Pet WebApp загружена!');
-</script>
+        console.log('❤️ Love Pet WebApp загружена!');
+    </script>
 
 </body>
 </html>
-        .stat-item .icon {
-            font-size: 22px;
-            width: 32px;
-            text-align: center;
-        }
-
-        .stat-bar {
-            flex: 1;
-            height: 12px;
-            background: rgba(74, 43, 94, 0.12);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .stat-bar .fill {
-            height: 100%;
-            border-radius: 20px;
-            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            width: 70%;
-        }
-
-        .stat-bar .fill.hunger { background: linear-gradient(90deg, #f093fb, #f5576c); }
-        .stat-bar .fill.clean { background: linear-gradient(90deg, #4facfe, #00f2fe); }
-        .stat-bar .fill.boredom { background: linear-gradient(90deg, #f6d365, #fda085); }
-        .stat-bar .fill.energy { background: linear-gradient(90deg, #a18cd1, #fbc2eb); }
-        .stat-bar .fill.mood { background: linear-gradient(90deg, #fddb92, #d1fdff); }
-
-        .stat-item .value {
-            font-size: 14px;
-            font-weight: 600;
-            color: #4a2b5e;
-            min-width: 36px;
-            text-align: right;
-        }
-
-        .actions {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin: 10px 0 20px;
-        }
-
-        .action-btn {
-            background: white;
-            border: none;
-            padding: 14px 0;
-            border-radius: 20px;
-            font-size: 28px;
-            box-shadow: 0 4px 15px rgba(149, 107, 181, 0.15);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-            color: #4a2b5e;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-
-        .action-btn:active {
-            transform: scale(0.92);
-            box-shadow: 0 2px 8px rgba(149, 107, 181, 0.1);
-        }
-
-        .action-btn .label {
-            font-size: 11px;
-            font-weight: 500;
-            color: #7a5f8e;
-        }
-
-        .bottom-menu {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .menu-btn {
-            background: white;
-            border: none;
-            padding: 12px;
-            border-radius: 18px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #4a2b5e;
-            box-shadow: 0 4px 15px rgba(149, 107, 181, 0.12);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .menu-btn:active {
-            transform: scale(0.95);
-        }
-
-        .menu-btn.primary {
-            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
-            color: #4a2b5e;
-        }
-
-        .board-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid rgba(149, 107, 181, 0.15);
-        }
-
-        .board-section .title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #7a5f8e;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .board-messages {
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 16px;
-            padding: 12px;
-            max-height: 90px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .board-msg {
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.5);
-            color: #4a2b5e;
-        }
-
-        .board-msg.me {
-            background: #a18cd1;
-            color: white;
-            align-self: flex-end;
-        }
-
-        .board-msg.other {
-            background: #f0ebf5;
-            align-self: flex-start;
-        }
-
-        .board-input-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .board-input-row input {
-            flex: 1;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 16px;
-            background: white;
-            font-size: 14px;
-            outline: none;
-            color: #4a2b5e;
-        }
-
-        .board-input-row button {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
-            color: #4a2b5e;
-            font-weight: 700;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(145deg, #1a1a2e, #2d1f3a);
-            }
-            .container {
-                background: rgba(30, 20, 40, 0.9);
-                border-color: rgba(255, 255, 255, 0.08);
-            }
-            .pet-name { color: #e8dff5; }
-            .stat-item .value { color: #e8dff5; }
-            .action-btn {
-                background: rgba(255, 255, 255, 0.06);
-                color: #e8dff5;
-                border-color: rgba(255, 255, 255, 0.08);
-            }
-            .action-btn .label { color: #b8a5c9; }
-            .menu-btn {
-                background: rgba(255, 255, 255, 0.06);
-                color: #e8dff5;
-                border-color: rgba(255, 255, 255, 0.08);
-            }
-            .board-messages { background: rgba(255, 255, 255, 0.06); }
-            .board-msg { background: rgba(255, 255, 255, 0.08); color: #e8dff5; }
-            .board-msg.other { background: rgba(255, 255, 255, 0.1); }
-            .board-input-row input {
-                background: rgba(255, 255, 255, 0.08);
-                color: #e8dff5;
-            }
-            .board-input-row input::placeholder { color: #7a5f8e; }
-        }
-
-        ::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
-        }
-
-        .container {
-            animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Уведомление */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-            z-index: 999;
-        }
-        .toast.show {
-            opacity: 1;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container" id="app">
-    <div class="header">
-        <div class="pet-name">
-            <span id="petEmoji">🐼</span>
-            <span id="petName">Пышка</span>
-        </div>
-        <div class="coins">
-            ❤️‍🔥 <span id="coinsCount">0</span>
-        </div>
-    </div>
-
-    <div class="pet-avatar">
-        <span class="emoji" id="avatarEmoji">🐼</span>
-        <div class="mood" id="moodText">😊 Счастлив</div>
-    </div>
-
-    <div class="stats">
-        <div class="stat-item">
-            <span class="icon">🍖</span>
-            <div class="stat-bar"><div class="fill hunger" id="hungerBar" style="width: 80%"></div></div>
-            <span class="value" id="hungerValue">80%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">🧼</span>
-            <div class="stat-bar"><div class="fill clean" id="cleanBar" style="width: 60%"></div></div>
-            <span class="value" id="cleanValue">60%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">🎮</span>
-            <div class="stat-bar"><div class="fill boredom" id="boredomBar" style="width: 40%"></div></div>
-            <span class="value" id="boredomValue">40%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">⚡</span>
-            <div class="stat-bar"><div class="fill energy" id="energyBar" style="width: 90%"></div></div>
-            <span class="value" id="energyValue">90%</span>
-        </div>
-    </div>
-
-    <div class="actions">
-        <button class="action-btn" data-action="feed">
-            🍽️
-            <span class="label">Кормить</span>
-        </button>
-        <button class="action-btn" data-action="play">
-            🎾
-            <span class="label">Играть</span>
-        </button>
-        <button class="action-btn" data-action="wash">
-            🛁
-            <span class="label">Мыть</span>
-        </button>
-        <button class="action-btn" data-action="cuddle">
-            🤗
-            <span class="label">Обнять</span>
-        </button>
-    </div>
-
-    <div class="bottom-menu">
-        <button class="menu-btn" data-action="shop">👗 Магазин</button>
-        <button class="menu-btn primary" data-action="status">📊 Статус</button>
-        <button class="menu-btn" data-action="sleep">💤 Спать</button>
-    </div>
-
-    <div class="board-section">
-        <div class="title">📝 Доска для партнёра</div>
-        <div class="board-messages" id="boardMessages">
-            <div class="board-msg me">Ты: Привет! ❤️</div>
-            <div class="board-msg other">Партнёр: И тебе!</div>
-        </div>
-        <div class="board-input-row">
-            <input type="text" id="boardInput" placeholder="Написать партнёру...">
-            <button onclick="sendBoardMessage()">📤</button>
-        </div>
-    </div>
-</div>
-
-<!-- Уведомление -->
-<div class="toast" id="toast"></div>
-
-<script>
-    // === Telegram WebApp ===
-    let tg = null;
-    if (window.Telegram && Telegram.WebApp) {
-        tg = Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-    }
-
-    // === Отправка действий ===
-    function sendAction(action) {
-        if (tg) {
-            tg.sendData(JSON.stringify({ action: action }));
-            showToast('⏳ Отправляю...');
-        } else {
-            // Режим теста в браузере
-            showToast('🔧 Действие: ' + action);
-            // Имитация ответа от бота
-            setTimeout(() => {
-                updateUI({
-                    pet_emoji: '🐼',
-                    pet_name: 'Пышка',
-                    avatar_emoji: '🐼',
-                    coins: 45,
-                    mood_text: '😊 Счастлив',
-                    hunger: 80,
-                    clean: 60,
-                    boredom: 40,
-                    energy: 90
-                });
-            }, 1000);
-        }
-    }
-
-    // === Назначение обработчиков на кнопки ===
-    document.querySelectorAll('[data-action]').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const action = this.dataset.action;
-            sendAction(action);
-        });
-    });
-
-    // === Доска сообщений ===
-    function sendBoardMessage() {
-        const input = document.getElementById('boardInput');
-        const text = input.value.trim();
-        if (!text) return;
-
-        if (tg) {
-            tg.sendData(JSON.stringify({
-                action: 'board',
-                message: text
-            }));
-        }
-
-        const board = document.getElementById('boardMessages');
-        const msg = document.createElement('div');
-        msg.className = 'board-msg me';
-        msg.textContent = 'Ты: ' + text;
-        board.appendChild(msg);
-        board.scrollTop = board.scrollHeight;
-        input.value = '';
-        showToast('💬 Сообщение отправлено!');
-    }
-
-    // === Приём данных от бота ===
-    if (tg) {
-        tg.onEvent('data', function(data) {
-            try {
-                const parsed = JSON.parse(data);
-                console.log('Получено от бота:', parsed);
-                
-                if (parsed.type === 'update') {
-                    updateUI(parsed.data);
-                } else if (parsed.type === 'board') {
-                    const board = document.getElementById('boardMessages');
-                    const msg = document.createElement('div');
-                    msg.className = 'board-msg other';
-                    msg.textContent = (parsed.from || 'Партнёр') + ': ' + parsed.text;
-                    board.appendChild(msg);
-                    board.scrollTop = board.scrollHeight;
-                }
-            } catch (e) {
-                console.error('Ошибка обработки данных:', e);
-            }
-        });
-    }
-
-    // === Обновление интерфейса ===
-    function updateUI(data) {
-        if (data.pet_emoji) document.getElementById('petEmoji').textContent = data.pet_emoji;
-        if (data.pet_name) document.getElementById('petName').textContent = data.pet_name;
-        if (data.avatar_emoji) document.getElementById('avatarEmoji').textContent = data.avatar_emoji;
-        if (data.coins !== undefined) document.getElementById('coinsCount').textContent = data.coins;
-        if (data.mood_text) document.getElementById('moodText').textContent = data.mood_text;
-
-        if (data.hunger !== undefined) {
-            document.getElementById('hungerBar').style.width = data.hunger + '%';
-            document.getElementById('hungerValue').textContent = data.hunger + '%';
-        }
-        if (data.clean !== undefined) {
-            document.getElementById('cleanBar').style.width = data.clean + '%';
-            document.getElementById('cleanValue').textContent = data.clean + '%';
-        }
-        if (data.boredom !== undefined) {
-            document.getElementById('boredomBar').style.width = data.boredom + '%';
-            document.getElementById('boredomValue').textContent = data.boredom + '%';
-        }
-        if (data.energy !== undefined) {
-            document.getElementById('energyBar').style.width = data.energy + '%';
-            document.getElementById('energyValue').textContent = data.energy + '%';
-        }
-        
-        showToast('✅ Обновлено!');
-    }
-
-    // === Уведомления (тост) ===
-    function showToast(text) {
-        const toast = document.getElementById('toast');
-        toast.textContent = text;
-        toast.classList.add('show');
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
-    }
-
-    // === Enter для доски ===
-    document.getElementById('boardInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') sendBoardMessage();
-    });
-
-    console.log('❤️ Love Pet WebApp загружена!');
-</script>
-
-</body>
-    </html>            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .stat-item .icon {
-            font-size: 22px;
-            width: 32px;
-            text-align: center;
-        }
-
-        .stat-bar {
-            flex: 1;
-            height: 12px;
-            background: rgba(74, 43, 94, 0.12);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .stat-bar .fill {
-            height: 100%;
-            border-radius: 20px;
-            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            width: 70%;
-        }
-
-        .stat-bar .fill.hunger { background: linear-gradient(90deg, #f093fb, #f5576c); }
-        .stat-bar .fill.clean { background: linear-gradient(90deg, #4facfe, #00f2fe); }
-        .stat-bar .fill.boredom { background: linear-gradient(90deg, #f6d365, #fda085); }
-        .stat-bar .fill.energy { background: linear-gradient(90deg, #a18cd1, #fbc2eb); }
-        .stat-bar .fill.mood { background: linear-gradient(90deg, #fddb92, #d1fdff); }
-
-        .stat-item .value {
-            font-size: 14px;
-            font-weight: 600;
-            color: #4a2b5e;
-            min-width: 36px;
-            text-align: right;
-        }
-
-        /* Кнопки действий */
-        .actions {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin: 10px 0 20px;
-        }
-
-        .action-btn {
-            background: white;
-            border: none;
-            padding: 14px 0;
-            border-radius: 20px;
-            font-size: 28px;
-            box-shadow: 0 4px 15px rgba(149, 107, 181, 0.15);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-            color: #4a2b5e;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-
-        .action-btn:active {
-            transform: scale(0.92);
-            box-shadow: 0 2px 8px rgba(149, 107, 181, 0.1);
-        }
-
-        .action-btn .label {
-            font-size: 11px;
-            font-weight: 500;
-            color: #7a5f8e;
-        }
-
-        /* Нижняя панель */
-        .bottom-menu {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .menu-btn {
-            background: white;
-            border: none;
-            padding: 12px;
-            border-radius: 18px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #4a2b5e;
-            box-shadow: 0 4px 15px rgba(149, 107, 181, 0.12);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .menu-btn:active {
-            transform: scale(0.95);
-        }
-
-        .menu-btn.primary {
-            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
-            color: #4a2b5e;
-        }
-
-        /* Доска сообщений */
-        .board-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid rgba(149, 107, 181, 0.15);
-        }
-
-        .board-section .title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #7a5f8e;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .board-messages {
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 16px;
-            padding: 12px;
-            max-height: 90px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .board-msg {
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.5);
-            color: #4a2b5e;
-        }
-
-        .board-msg.me {
-            background: #a18cd1;
-            color: white;
-            align-self: flex-end;
-        }
-
-        .board-msg.other {
-            background: #f0ebf5;
-            align-self: flex-start;
-        }
-
-        .board-input-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .board-input-row input {
-            flex: 1;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 16px;
-            background: white;
-            font-size: 14px;
-            outline: none;
-            color: #4a2b5e;
-        }
-
-        .board-input-row button {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
-            color: #4a2b5e;
-            font-weight: 700;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        /* Тёмная тема для Telegram */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(145deg, #1a1a2e, #2d1f3a);
-            }
-
-            .container {
-                background: rgba(30, 20, 40, 0.9);
-                border-color: rgba(255, 255, 255, 0.08);
-            }
-
-            .pet-name { color: #e8dff5; }
-            .stat-item .value { color: #e8dff5; }
-            .action-btn {
-                background: rgba(255, 255, 255, 0.06);
-                color: #e8dff5;
-                border-color: rgba(255, 255, 255, 0.08);
-            }
-            .action-btn .label { color: #b8a5c9; }
-            .menu-btn {
-                background: rgba(255, 255, 255, 0.06);
-                color: #e8dff5;
-                border-color: rgba(255, 255, 255, 0.08);
-            }
-            .board-messages { background: rgba(255, 255, 255, 0.06); }
-            .board-msg { background: rgba(255, 255, 255, 0.08); color: #e8dff5; }
-            .board-msg.other { background: rgba(255, 255, 255, 0.1); }
-            .board-input-row input {
-                background: rgba(255, 255, 255, 0.08);
-                color: #e8dff5;
-            }
-            .board-input-row input::placeholder { color: #7a5f8e; }
-        }
-
-        /* Убираем скролл */
-        ::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
-        }
-
-        /* Анимация появления */
-        .container {
-            animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-
-<div class="container" id="app">
-
-    <!-- Шапка -->
-    <div class="header">
-        <div class="pet-name">
-            <span id="petEmoji">🐼</span>
-            <span id="petName">Пышка</span>
-        </div>
-        <div class="coins">
-            ❤️‍🔥 <span id="coinsCount">0</span>
-        </div>
-    </div>
-
-    <!-- Аватар -->
-    <div class="pet-avatar">
-        <span class="emoji" id="avatarEmoji">🐼</span>
-        <div class="mood" id="moodText">😊 Счастлив</div>
-    </div>
-
-    <!-- Статусы -->
-    <div class="stats">
-        <div class="stat-item">
-            <span class="icon">🍖</span>
-            <div class="stat-bar"><div class="fill hunger" id="hungerBar" style="width: 80%"></div></div>
-            <span class="value" id="hungerValue">80%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">🧼</span>
-            <div class="stat-bar"><div class="fill clean" id="cleanBar" style="width: 60%"></div></div>
-            <span class="value" id="cleanValue">60%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">🎮</span>
-            <div class="stat-bar"><div class="fill boredom" id="boredomBar" style="width: 40%"></div></div>
-            <span class="value" id="boredomValue">40%</span>
-        </div>
-        <div class="stat-item">
-            <span class="icon">⚡</span>
-            <div class="stat-bar"><div class="fill energy" id="energyBar" style="width: 90%"></div></div>
-            <span class="value" id="energyValue">90%</span>
-        </div>
-    </div>
-
-    <!-- Действия -->
-    <div class="actions">
-        <button class="action-btn" onclick="sendAction('feed')">
-            🍽️
-            <span class="label">Кормить</span>
-        </button>
-        <button class="action-btn" onclick="sendAction('play')">
-            🎾
-            <span class="label">Играть</span>
-        </button>
-        <button class="action-btn" onclick="sendAction('wash')">
-            🛁
-            <span class="label">Мыть</span>
-        </button>
-        <button class="action-btn" onclick="sendAction('cuddle')">
-            🤗
-            <span class="label">Обнять</span>
-        </button>
-    </div>
-
-    <!-- Меню -->
-    <div class="bottom-menu">
-        <button class="menu-btn" onclick="sendAction('shop')">👗 Магазин</button>
-        <button class="menu-btn primary" onclick="sendAction('status')">📊 Статус</button>
-        <button class="menu-btn" onclick="sendAction('sleep')">💤 Спать</button>
-    </div>
-
-    <!-- Доска сообщений -->
-    <div class="board-section">
-        <div class="title">📝 Доска для партнёра</div>
-        <div class="board-messages" id="boardMessages">
-            <div class="board-msg me">Ты: Привет! ❤️</div>
-            <div class="board-msg other">Партнёр: И тебе!</div>
-        </div>
-        <div class="board-input-row">
-            <input type="text" id="boardInput" placeholder="Написать партнёру...">
-            <button onclick="sendBoardMessage()">📤</button>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    // === Telegram WebApp ===
-let tg = null;
-if (window.Telegram && Telegram.WebApp) {
-    tg = Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-}
-
-    // === Отправка действий ===
-    function sendAction(action) {
-        if (tg) {
-            tg.sendData(JSON.stringify({ action: action }));
-        } else {
-            // Для теста в браузере
-            console.log('Действие:', action);
-            alert(`Действие: ${action}`);
-        }
-    }
-
-    // === Доска сообщений ===
-    function sendBoardMessage() {
-        const input = document.getElementById('boardInput');
-        const text = input.value.trim();
-        if (!text) return;
-
-        if (tg) {
-            tg.sendData(JSON.stringify({
-                action: 'board',
-                message: text
-            }));
-        }
-
-        // Добавляем локально
-        const board = document.getElementById('boardMessages');
-        const msg = document.createElement('div');
-        msg.className = 'board-msg me';
-        msg.textContent = `Ты: ${text}`;
-        board.appendChild(msg);
-        board.scrollTop = board.scrollHeight;
-        input.value = '';
-    }
-
-    // === Приём данных от бота ===
-    if (tg) {
-        tg.onEvent('data', (data) => {
-            try {
-                const parsed = JSON.parse(data);
-                if (parsed.type === 'update') {
-                    updateUI(parsed.data);
-                } else if (parsed.type === 'board') {
-                    const board = document.getElementById('boardMessages');
-                    const msg = document.createElement('div');
-                    msg.className = 'board-msg other';
-                    msg.textContent = `${parsed.from}: ${parsed.text}`;
-                    board.appendChild(msg);
-                    board.scrollTop = board.scrollHeight;
-                }
-            } catch (e) {
-                console.error('Ошибка:', e);
-            }
-        });
-    }
-
-    // === Функция обновления UI ===
-    function updateUI(data) {
-        if (data.pet_emoji) document.getElementById('petEmoji').textContent = data.pet_emoji;
-        if (data.pet_name) document.getElementById('petName').textContent = data.pet_name;
-        if (data.avatar_emoji) document.getElementById('avatarEmoji').textContent = data.avatar_emoji;
-        if (data.coins !== undefined) document.getElementById('coinsCount').textContent = data.coins;
-        if (data.mood_text) document.getElementById('moodText').textContent = data.mood_text;
-
-        if (data.hunger !== undefined) {
-            document.getElementById('hungerBar').style.width = data.hunger + '%';
-            document.getElementById('hungerValue').textContent = data.hunger + '%';
-        }
-        if (data.clean !== undefined) {
-            document.getElementById('cleanBar').style.width = data.clean + '%';
-            document.getElementById('cleanValue').textContent = data.clean + '%';
-        }
-        if (data.boredom !== undefined) {
-            document.getElementById('boredomBar').style.width = data.boredom + '%';
-            document.getElementById('boredomValue').textContent = data.boredom + '%';
-        }
-        if (data.energy !== undefined) {
-            document.getElementById('energyBar').style.width = data.energy + '%';
-            document.getElementById('energyValue').textContent = data.energy + '%';
-        }
-    }
-
-    // === Enter для доски ===
-    document.getElementById('boardInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendBoardMessage();
-    });
-
-    // === Тестовые данные ===
-    console.log('Love Pet WebApp загружен!');
-</script>
-
-</body>
-  </html>
