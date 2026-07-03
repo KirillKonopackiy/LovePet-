@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Love Pet</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         body {
             font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(145deg, #f7f0fc, #e8dff5);
@@ -22,20 +16,16 @@
             align-items: center;
             justify-content: center;
         }
-
         .container {
             width: 100%;
             max-width: 400px;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-radius: 40px;
             padding: 25px 20px 30px;
             box-shadow: 0 20px 60px rgba(149, 107, 181, 0.25);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -44,7 +34,6 @@
             padding-bottom: 15px;
             border-bottom: 2px solid rgba(149, 107, 181, 0.15);
         }
-
         .pet-name {
             font-size: 24px;
             font-weight: 700;
@@ -53,11 +42,7 @@
             align-items: center;
             gap: 8px;
         }
-
-        .pet-name span {
-            font-size: 28px;
-        }
-
+        .pet-name span { font-size: 28px; }
         .coins {
             background: linear-gradient(135deg, #ffd700, #f5a623);
             padding: 8px 16px;
@@ -70,46 +55,401 @@
             gap: 6px;
             box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
         }
-
-        .pet-avatar {
-            text-align: center;
-            padding: 20px 0 15px;
-            position: relative;
-        }
-
+        .pet-avatar { text-align: center; padding: 20px 0 15px; }
         .pet-avatar .emoji {
             font-size: 100px;
             line-height: 1;
             display: block;
-            transition: transform 0.3s ease;
             animation: float 3s ease-in-out infinite;
         }
-
         .pet-avatar .mood {
             font-size: 20px;
             margin-top: 5px;
             font-weight: 600;
             color: #4a2b5e;
         }
-
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
-
-        .stats {
-            margin: 15px 0 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
+        .stats { margin: 15px 0 25px; display: flex; flex-direction: column; gap: 12px; }
         .stat-item {
             display: flex;
             align-items: center;
             gap: 12px;
         }
+        .stat-item .icon { font-size: 22px; width: 32px; text-align: center; }
+        .stat-bar {
+            flex: 1;
+            height: 12px;
+            background: rgba(74, 43, 94, 0.12);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .stat-bar .fill {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 70%;
+        }
+        .stat-bar .fill.hunger { background: linear-gradient(90deg, #f093fb, #f5576c); }
+        .stat-bar .fill.clean { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+        .stat-bar .fill.boredom { background: linear-gradient(90deg, #f6d365, #fda085); }
+        .stat-bar .fill.energy { background: linear-gradient(90deg, #a18cd1, #fbc2eb); }
+        .stat-item .value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a2b5e;
+            min-width: 36px;
+            text-align: right;
+        }
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 10px 0 20px;
+        }
+        .action-btn {
+            background: white;
+            border: none;
+            padding: 14px 0;
+            border-radius: 20px;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(149, 107, 181, 0.15);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+            color: #4a2b5e;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .action-btn:active { transform: scale(0.92); }
+        .action-btn .label { font-size: 11px; font-weight: 500; color: #7a5f8e; }
+        .bottom-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .menu-btn {
+            background: white;
+            border: none;
+            padding: 12px;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a2b5e;
+            box-shadow: 0 4px 15px rgba(149, 107, 181, 0.12);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .menu-btn:active { transform: scale(0.95); }
+        .menu-btn.primary { background: linear-gradient(135deg, #a18cd1, #fbc2eb); color: #4a2b5e; }
+        .board-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(149, 107, 181, 0.15);
+        }
+        .board-section .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #7a5f8e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .board-messages {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 12px;
+            max-height: 90px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .board-msg {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.5);
+            color: #4a2b5e;
+        }
+        .board-msg.me { background: #a18cd1; color: white; align-self: flex-end; }
+        .board-msg.other { background: #f0ebf5; align-self: flex-start; }
+        .board-input-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .board-input-row input {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 16px;
+            background: white;
+            font-size: 14px;
+            outline: none;
+            color: #4a2b5e;
+        }
+        .board-input-row button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            color: #4a2b5e;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        @media (prefers-color-scheme: dark) {
+            body { background: linear-gradient(145deg, #1a1a2e, #2d1f3a); }
+            .container { background: rgba(30, 20, 40, 0.9); border-color: rgba(255, 255, 255, 0.08); }
+            .pet-name { color: #e8dff5; }
+            .stat-item .value { color: #e8dff5; }
+            .action-btn { background: rgba(255, 255, 255, 0.06); color: #e8dff5; border-color: rgba(255, 255, 255, 0.08); }
+            .action-btn .label { color: #b8a5c9; }
+            .menu-btn { background: rgba(255, 255, 255, 0.06); color: #e8dff5; border-color: rgba(255, 255, 255, 0.08); }
+            .board-messages { background: rgba(255, 255, 255, 0.06); }
+            .board-msg { background: rgba(255, 255, 255, 0.08); color: #e8dff5; }
+            .board-msg.other { background: rgba(255, 255, 255, 0.1); }
+            .board-input-row input { background: rgba(255, 255, 255, 0.08); color: #e8dff5; }
+            .board-input-row input::placeholder { color: #7a5f8e; }
+        }
+        ::-webkit-scrollbar { width: 0; background: transparent; }
+        .container { animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
 
+<div class="container" id="app">
+    <div class="header">
+        <div class="pet-name">
+            <span id="petEmoji">🐼</span>
+            <span id="petName">Пышка</span>
+        </div>
+        <div class="coins">
+            ❤️‍🔥 <span id="coinsCount">0</span>
+        </div>
+    </div>
+
+    <div class="pet-avatar">
+        <span class="emoji" id="avatarEmoji">🐼</span>
+        <div class="mood" id="moodText">😊 Счастлив</div>
+    </div>
+
+    <div class="stats">
+        <div class="stat-item">
+            <span class="icon">🍖</span>
+            <div class="stat-bar"><div class="fill hunger" id="hungerBar" style="width: 80%"></div></div>
+            <span class="value" id="hungerValue">80%</span>
+        </div>
+        <div class="stat-item">
+            <span class="icon">🧼</span>
+            <div class="stat-bar"><div class="fill clean" id="cleanBar" style="width: 60%"></div></div>
+            <span class="value" id="cleanValue">60%</span>
+        </div>
+        <div class="stat-item">
+            <span class="icon">🎮</span>
+            <div class="stat-bar"><div class="fill boredom" id="boredomBar" style="width: 40%"></div></div>
+            <span class="value" id="boredomValue">40%</span>
+        </div>
+        <div class="stat-item">
+            <span class="icon">⚡</span>
+            <div class="stat-bar"><div class="fill energy" id="energyBar" style="width: 90%"></div></div>
+            <span class="value" id="energyValue">90%</span>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="action-btn" data-action="feed">
+            🍽️
+            <span class="label">Кормить</span>
+        </button>
+        <button class="action-btn" data-action="play">
+            🎾
+            <span class="label">Играть</span>
+        </button>
+        <button class="action-btn" data-action="wash">
+            🛁
+            <span class="label">Мыть</span>
+        </button>
+        <button class="action-btn" data-action="cuddle">
+            🤗
+            <span class="label">Обнять</span>
+        </button>
+    </div>
+
+    <div class="bottom-menu">
+        <button class="menu-btn" data-action="shop">👗 Магазин</button>
+        <button class="menu-btn primary" data-action="status">📊 Статус</button>
+        <button class="menu-btn" data-action="sleep">💤 Спать</button>
+    </div>
+
+    <div class="board-section">
+        <div class="title">📝 Доска для партнёра</div>
+        <div class="board-messages" id="boardMessages">
+            <div class="board-msg me">Ты: Привет! ❤️</div>
+            <div class="board-msg other">Партнёр: И тебе!</div>
+        </div>
+        <div class="board-input-row">
+            <input type="text" id="boardInput" placeholder="Написать партнёру...">
+            <button onclick="sendBoardMessage()">📤</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    // === Telegram WebApp ===
+    let tg = null;
+    if (window.Telegram && Telegram.WebApp) {
+        tg = Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+    }
+
+    // === Отправка действий ===
+    function sendAction(action) {
+        if (tg) {
+            tg.sendData(JSON.stringify({ action: action }));
+            showToast('⏳ Отправляю...');
+        } else {
+            showToast('🔧 Режим теста: ' + action);
+        }
+    }
+
+    // === Назначение обработчиков на кнопки ===
+    document.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const action = this.dataset.action;
+            sendAction(action);
+        });
+    });
+
+    // === Доска сообщений ===
+    function sendBoardMessage() {
+        const input = document.getElementById('boardInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        if (tg) {
+            tg.sendData(JSON.stringify({
+                action: 'board',
+                message: text
+            }));
+        }
+
+        const board = document.getElementById('boardMessages');
+        const msg = document.createElement('div');
+        msg.className = 'board-msg me';
+        msg.textContent = 'Ты: ' + text;
+        board.appendChild(msg);
+        board.scrollTop = board.scrollHeight;
+        input.value = '';
+        showToast('💬 Отправлено!');
+    }
+
+    // === Приём данных от бота ===
+    if (tg) {
+        tg.onEvent('data', function(data) {
+            try {
+                const parsed = JSON.parse(data);
+                console.log('Получено от бота:', parsed);
+                
+                if (parsed.type === 'update') {
+                    updateUI(parsed.data);
+                    showToast('✅ Обновлено!');
+                } else if (parsed.type === 'board') {
+                    const board = document.getElementById('boardMessages');
+                    const msg = document.createElement('div');
+                    msg.className = 'board-msg other';
+                    msg.textContent = (parsed.from || 'Партнёр') + ': ' + parsed.text;
+                    board.appendChild(msg);
+                    board.scrollTop = board.scrollHeight;
+                }
+            } catch (e) {
+                console.error('Ошибка обработки данных:', e);
+            }
+        });
+    }
+
+    // === Обновление интерфейса ===
+    function updateUI(data) {
+        if (data.pet_emoji) document.getElementById('petEmoji').textContent = data.pet_emoji;
+        if (data.pet_name) document.getElementById('petName').textContent = data.pet_name;
+        if (data.avatar_emoji) document.getElementById('avatarEmoji').textContent = data.avatar_emoji;
+        if (data.coins !== undefined) document.getElementById('coinsCount').textContent = data.coins;
+        if (data.mood_text) document.getElementById('moodText').textContent = data.mood_text;
+
+        if (data.hunger !== undefined) {
+            document.getElementById('hungerBar').style.width = data.hunger + '%';
+            document.getElementById('hungerValue').textContent = data.hunger + '%';
+        }
+        if (data.clean !== undefined) {
+            document.getElementById('cleanBar').style.width = data.clean + '%';
+            document.getElementById('cleanValue').textContent = data.clean + '%';
+        }
+        if (data.boredom !== undefined) {
+            document.getElementById('boredomBar').style.width = data.boredom + '%';
+            document.getElementById('boredomValue').textContent = data.boredom + '%';
+        }
+        if (data.energy !== undefined) {
+            document.getElementById('energyBar').style.width = data.energy + '%';
+            document.getElementById('energyValue').textContent = data.energy + '%';
+        }
+    }
+
+    // === Уведомления ===
+    function showToast(text) {
+        const toast = document.getElementById('toast');
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
+    }
+
+    // === Enter для доски ===
+    document.getElementById('boardInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendBoardMessage();
+    });
+
+    console.log('❤️ Love Pet WebApp загружена!');
+</script>
+
+</body>
+</html>
         .stat-item .icon {
             font-size: 22px;
             width: 32px;
