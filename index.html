@@ -437,12 +437,12 @@
 
 <script>
     // === Telegram WebApp ===
-    let tg = window.Telegram?.WebApp;
-
-    if (tg) {
-        tg.ready();
-        tg.expand();
-    }
+let tg = null;
+if (window.Telegram && Telegram.WebApp) {
+    tg = Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+}
 
     // === Отправка действий ===
     function sendAction(action) {
