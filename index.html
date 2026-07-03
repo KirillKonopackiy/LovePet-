@@ -3,86 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Love Pet</title>
+    <title>Love Pet – Дом питомца</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
         body {
             font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(145deg, #f7f0fc, #e8dff5);
+            background: #1a1a2e;
             min-height: 100vh;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 12px;
+            transition: background 0.5s ease;
         }
+
+        /* Основной контейнер */
         .container {
             width: 100%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-radius: 40px;
-            padding: 25px 20px 30px;
-            box-shadow: 0 20px 60px rgba(149, 107, 181, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 20px 16px 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative;
+            overflow: hidden;
         }
+
+        /* Часы (в углу) */
+        .clock {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Шапка с валютой */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(149, 107, 181, 0.15);
+            margin-bottom: 16px;
+            padding-top: 6px;
         }
+
         .pet-name {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            color: #4a2b5e;
+            color: #fff;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .pet-name span { font-size: 28px; }
+
+        .pet-name span {
+            font-size: 24px;
+        }
+
         .coins {
-            background: linear-gradient(135deg, #ffd700, #f5a623);
-            padding: 8px 16px;
+            background: #e8e8e8;
+            padding: 4px 14px;
             border-radius: 30px;
-            color: #4a2b5e;
+            color: #1a1a2e;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
-        .pet-avatar { text-align: center; padding: 20px 0 15px; }
+
+        /* Комнаты (свайп) */
+        .rooms-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            display: flex;
+            gap: 0;
+            margin: 12px 0 16px;
+            border-radius: 28px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0;
+            scrollbar-width: none;
+        }
+
+        .rooms-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .room {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            padding: 20px 16px 16px;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.4s ease;
+            border-radius: 28px;
+        }
+
+        /* Комнаты – разные фоны */
+        .room-bedroom {
+            background: linear-gradient(145deg, #2c2c54, #1a1a2e);
+        }
+        .room-kitchen {
+            background: linear-gradient(145deg, #3e2723, #1a1a2e);
+        }
+        .room-bathroom {
+            background: linear-gradient(145deg, #1a237e, #0d47a1);
+        }
+        .room-game {
+            background: linear-gradient(145deg, #1b5e20, #1a1a2e);
+        }
+        .room-garden {
+            background: linear-gradient(145deg, #2e7d32, #1a1a2e);
+        }
+
+        .room-icon {
+            font-size: 64px;
+            margin-bottom: 8px;
+        }
+        .room-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .room-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 12px;
+        }
+
+        /* Аватар питомца в комнате */
+        .pet-avatar {
+            text-align: center;
+            margin: 4px 0 8px;
+        }
         .pet-avatar .emoji {
-            font-size: 100px;
+            font-size: 72px;
             line-height: 1;
             display: block;
             animation: float 3s ease-in-out infinite;
         }
         .pet-avatar .mood {
-            font-size: 20px;
-            margin-top: 5px;
-            font-weight: 600;
-            color: #4a2b5e;
+            font-size: 16px;
+            font-weight: 500;
+            color: #fff;
+            margin-top: 2px;
         }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
-        .stats { margin: 15px 0 25px; display: flex; flex-direction: column; gap: 12px; }
+
+        /* Шкалы */
+        .stats {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 8px 0 14px;
+        }
         .stat-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
-        .stat-item .icon { font-size: 22px; width: 32px; text-align: center; }
+        .stat-item .icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
         .stat-bar {
             flex: 1;
-            height: 12px;
-            background: rgba(74, 43, 94, 0.12);
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             overflow: hidden;
         }
@@ -97,19 +217,609 @@
         .stat-bar .fill.boredom { background: linear-gradient(90deg, #f6d365, #fda085); }
         .stat-bar .fill.energy { background: linear-gradient(90deg, #a18cd1, #fbc2eb); }
         .stat-item .value {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
-            color: #4a2b5e;
-            min-width: 36px;
+            color: #fff;
+            min-width: 32px;
             text-align: right;
         }
+
+        /* Кнопки действий */
         .actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin: 10px 0 20px;
+            gap: 8px;
+            width: 100%;
+            margin: 8px 0 12px;
         }
         .action-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 0;
+            border-radius: 18px;
+            font-size: 22px;
+            color: #fff;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            backdrop-filter: blur(4px);
+        }
+        .action-btn:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .action-btn .label {
+            font-size: 10px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Нижнее меню */
+        .bottom-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+            margin: 6px 0 12px;
+        }
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 10px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            backdrop-filter: blur(4px);
+        }
+        .menu-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .menu-btn.primary {
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            color: #1a1a2e;
+        }
+
+        /* Доска сообщений */
+        .board-section {
+            width: 100%;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .board-section .title {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .board-messages {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 14px;
+            padding: 8px 10px;
+            max-height: 72px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .board-msg {
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+        .board-msg.me {
+            background: #a18cd1;
+            color: #1a1a2e;
+            align-self: flex-end;
+        }
+        .board-msg.other {
+            background: rgba(255, 255, 255, 0.08);
+            align-self: flex-start;
+        }
+        .board-input-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .board-input-row input {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            font-size: 13px;
+            color: #fff;
+            outline: none;
+        }
+        .board-input-row input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .board-input-row button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            color: #1a1a2e;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Индикаторы комнат (точки) */
+        .room-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 4px 0 6px;
+        }
+        .room-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: 0.3s;
+        }
+        .room-dot.active {
+            background: #ffd700;
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        /* Тост */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* Адаптация под тёмную тему телефона (но мы уже тёмные) */
+        @media (prefers-color-scheme: light) {
+            body {
+                background: #f0edf5;
+            }
+            .container {
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(20px);
+                border-color: rgba(255, 255, 255, 0.3);
+            }
+            .pet-name { color: #1a1a2e; }
+            .coins { background: #e0dce8; color: #1a1a2e; }
+            .room-desc { color: rgba(0, 0, 0, 0.5); }
+            .stat-item .value { color: #1a1a2e; }
+            .action-btn { background: rgba(255, 255, 255, 0.6); border-color: rgba(0, 0, 0, 0.05); color: #1a1a2e; }
+            .action-btn .label { color: rgba(0, 0, 0, 0.5); }
+            .menu-btn { background: rgba(255, 255, 255, 0.5); color: #1a1a2e; border-color: rgba(0, 0, 0, 0.05); }
+            .room-dot { background: rgba(0, 0, 0, 0.15); }
+            .room-dot.active { background: #a18cd1; }
+            .board-msg { background: rgba(0, 0, 0, 0.04); color: #1a1a2e; }
+            .board-msg.other { background: rgba(0, 0, 0, 0.06); }
+            .board-input-row input { background: rgba(0, 0, 0, 0.05); color: #1a1a2e; }
+            .board-input-row input::placeholder { color: rgba(0, 0, 0, 0.3); }
+            .clock { background: rgba(255, 255, 255, 0.8); color: #1a1a2e; border-color: rgba(0, 0, 0, 0.05); }
+            .room-bedroom { background: #e8e0f0; }
+            .room-kitchen { background: #f5e8e0; }
+            .room-bathroom { background: #dce8f5; }
+            .room-game { background: #e0f0e0; }
+            .room-garden { background: #ddf0dd; }
+            .pet-avatar .mood { color: #1a1a2e; }
+            .room-title { color: #1a1a2e; }
+            .stat-bar { background: rgba(0, 0, 0, 0.08); }
+            .stats .value { color: #1a1a2e; }
+        }
+
+        /* Убираем скролл */
+        ::-webkit-scrollbar { width: 0; background: transparent; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <!-- Часы -->
+    <div class="clock" id="clockDisplay">--:--</div>
+
+    <!-- Шапка -->
+    <div class="header">
+        <div class="pet-name">
+            <span id="petEmoji">🐼</span>
+            <span id="petName">Пышка</span>
+        </div>
+        <div class="coins">
+            ❤️‍🔥 <span id="coinsCount">0</span>
+        </div>
+    </div>
+
+    <!-- Комнаты (свайп) -->
+    <div class="rooms-wrapper" id="roomsWrapper">
+        <!-- Спальня -->
+        <div class="room room-bedroom" data-room="bedroom">
+            <div class="room-icon">🛏️</div>
+            <div class="room-title">Спальня</div>
+            <div class="room-desc">🕒 Здесь питомец отдыхает</div>
+            <div class="pet-avatar">
+                <span class="emoji" id="avatarEmoji">🐼</span>
+                <div class="mood" id="moodText">😊 Счастлив</div>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="icon">🍖</span>
+                    <div class="stat-bar"><div class="fill hunger" id="hungerBar" style="width:80%"></div></div>
+                    <span class="value" id="hungerValue">80%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="icon">🧼</span>
+                    <div class="stat-bar"><div class="fill clean" id="cleanBar" style="width:60%"></div></div>
+                    <span class="value" id="cleanValue">60%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="icon">🎮</span>
+                    <div class="stat-bar"><div class="fill boredom" id="boredomBar" style="width:40%"></div></div>
+                    <span class="value" id="boredomValue">40%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="icon">⚡</span>
+                    <div class="stat-bar"><div class="fill energy" id="energyBar" style="width:90%"></div></div>
+                    <span class="value" id="energyValue">90%</span>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
+                <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
+                <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
+                <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
+            </div>
+            <div class="bottom-menu">
+                <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                <button class="menu-btn" data-action="sleep">💤 Спать</button>
+            </div>
+        </div>
+
+        <!-- Кухня -->
+        <div class="room room-kitchen" data-room="kitchen">
+            <div class="room-icon">🍳</div>
+            <div class="room-title">Кухня</div>
+            <div class="room-desc">🍽️ Здесь готовят еду</div>
+            <div class="pet-avatar">
+                <span class="emoji" id="avatarEmoji2">🐼</span>
+                <div class="mood" id="moodText2">😊 Счастлив</div>
+            </div>
+            <div class="stats" id="statsClone">
+                <!-- Клонируются из спальни через JS -->
+            </div>
+            <div class="actions">
+                <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
+                <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
+                <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
+                <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
+            </div>
+            <div class="bottom-menu">
+                <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                <button class="menu-btn" data-action="sleep">💤 Спать</button>
+            </div>
+        </div>
+
+        <!-- Ванная -->
+        <div class="room room-bathroom" data-room="bathroom">
+            <div class="room-icon">🛁</div>
+            <div class="room-title">Ванная</div>
+            <div class="room-desc">🧼 Здесь питомец становится чистым</div>
+            <div class="pet-avatar">
+                <span class="emoji" id="avatarEmoji3">🐼</span>
+                <div class="mood" id="moodText3">😊 Счастлив</div>
+            </div>
+            <div class="stats" id="statsClone2"></div>
+            <div class="actions">
+                <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
+                <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
+                <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
+                <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
+            </div>
+            <div class="bottom-menu">
+                <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                <button class="menu-btn" data-action="sleep">💤 Спать</button>
+            </div>
+        </div>
+
+        <!-- Игровая комната (с доской) -->
+        <div class="room room-game" data-room="game">
+            <div class="room-icon">🎮</div>
+            <div class="room-title">Игровая комната</div>
+            <div class="room-desc">🎯 Здесь играют и общаются</div>
+            <div class="pet-avatar">
+                <span class="emoji" id="avatarEmoji4">🐼</span>
+                <div class="mood" id="moodText4">😊 Счастлив</div>
+            </div>
+            <div class="stats" id="statsClone3"></div>
+            <div class="actions">
+                <button class="action-btn" data-action="play"><span>🎾</span><span class="label">Играть</span></button>
+                <button class="action-btn" data-action="cuddle"><span>🤗</span><span class="label">Обнять</span></button>
+                <button class="action-btn" data-action="feed"><span>🍽️</span><span class="label">Кормить</span></button>
+                <button class="action-btn" data-action="wash"><span>🛁</span><span class="label">Мыть</span></button>
+            </div>
+            <div class="bottom-menu">
+                <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                <button class="menu-btn" data-action="sleep">💤 Спать</button>
+            </div>
+
+            <!-- Доска -->
+            <div class="board-section">
+                <div class="title">📝 Доска для партнёра</div>
+                <div class="board-messages" id="boardMessages">
+                    <div class="board-msg me">Ты: Привет! ❤️</div>
+                    <div class="board-msg other">Партнёр: И тебе!</div>
+                </div>
+                <div class="board-input-row">
+                    <input type="text" id="boardInput" placeholder="Написать партнёру...">
+                    <button onclick="sendBoardMessage()">📤</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Улица -->
+        <div class="room room-garden" data-room="garden">
+            <div class="room-icon">🌿</div>
+            <div class="room-title">Улица</div>
+            <div class="room-desc">☀️ Здесь питомец гуляет</div>
+            <div class="pet-avatar">
+                <span class="emoji" id="avatarEmoji5">🐼</span>
+                <div class="mood" id="moodText5">😊 Счастлив</div>
+            </div>
+            <div class="stats" id="statsClone4"></div>
+            <div class="actions">
+                <button class="action-btn" data-action="walk_together"><span>🚶</span><span class="label">Гулять</span></button>
+                <button class="action-btn" data-action="play_together"><span>🎮</span><span class="label">Играть</span></button>
+                <button class="action-btn" data-action="talk_together"><span>💬</span><span class="label">Общаться</span></button>
+            </div>
+            <div class="bottom-menu">
+                <button class="menu-btn" data-action="shop">👗 Магазин</button>
+                <button class="menu-btn primary" data-action="status">📊 Статус</button>
+                <button class="menu-btn" data-action="sleep">💤 Спать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Индикаторы комнат -->
+    <div class="room-dots" id="roomDots">
+        <span class="room-dot active" data-index="0"></span>
+        <span class="room-dot" data-index="1"></span>
+        <span class="room-dot" data-index="2"></span>
+        <span class="room-dot" data-index="3"></span>
+        <span class="room-dot" data-index="4"></span>
+    </div>
+
+    <!-- Уведомление -->
+    <div class="toast" id="toast"></div>
+</div>
+
+<script>
+    // === Telegram WebApp ===
+    let tg = null;
+    if (window.Telegram && Telegram.WebApp) {
+        tg = Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+    }
+
+    // === Отправка действий ===
+    function sendAction(action) {
+        if (tg) {
+            tg.sendData(JSON.stringify({ action: action }));
+            showToast('⏳ Отправляю...');
+        } else {
+            showToast('🔧 Тест: ' + action);
+        }
+    }
+
+    // === Назначение обработчиков на кнопки ===
+    document.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const action = this.dataset.action;
+            sendAction(action);
+        });
+    });
+
+    // === Доска сообщений ===
+    function sendBoardMessage() {
+        const input = document.getElementById('boardInput');
+        const text = input.value.trim();
+        if (!text) return;
+        if (tg) {
+            tg.sendData(JSON.stringify({
+                action: 'board',
+                message: text
+            }));
+        }
+        const board = document.getElementById('boardMessages');
+        const msg = document.createElement('div');
+        msg.className = 'board-msg me';
+        msg.textContent = 'Ты: ' + text;
+        board.appendChild(msg);
+        board.scrollTop = board.scrollHeight;
+        input.value = '';
+        showToast('💬 Отправлено!');
+    }
+
+    // === Приём данных от бота ===
+    if (tg) {
+        tg.onEvent('data', function(data) {
+            try {
+                const parsed = JSON.parse(data);
+                console.log('Получено от бота:', parsed);
+
+                if (parsed.type === 'update') {
+                    updateUI(parsed.data);
+                    showToast('✅ Обновлено!');
+                } else if (parsed.type === 'board') {
+                    const board = document.getElementById('boardMessages');
+                    const msg = document.createElement('div');
+                    msg.className = 'board-msg other';
+                    msg.textContent = (parsed.from || 'Партнёр') + ': ' + parsed.text;
+                    board.appendChild(msg);
+                    board.scrollTop = board.scrollHeight;
+                }
+            } catch (e) {
+                console.error('Ошибка обработки данных:', e);
+            }
+        });
+    }
+
+    // === Обновление интерфейса ===
+    function updateUI(data) {
+        // Обновляем эмодзи и имя
+        if (data.pet_emoji) {
+            document.querySelectorAll('#petEmoji, #avatarEmoji, #avatarEmoji2, #avatarEmoji3, #avatarEmoji4, #avatarEmoji5')
+                .forEach(el => el.textContent = data.pet_emoji);
+        }
+        if (data.pet_name) {
+            document.getElementById('petName').textContent = data.pet_name;
+        }
+        if (data.coins !== undefined) {
+            document.getElementById('coinsCount').textContent = data.coins;
+        }
+        if (data.mood_text) {
+            document.querySelectorAll('#moodText, #moodText2, #moodText3, #moodText4, #moodText5')
+                .forEach(el => el.textContent = data.mood_text);
+        }
+
+        // Шкалы
+        if (data.hunger !== undefined) {
+            document.querySelectorAll('#hungerBar').forEach(el => el.style.width = data.hunger + '%');
+            document.querySelectorAll('#hungerValue').forEach(el => el.textContent = data.hunger + '%');
+        }
+        if (data.clean !== undefined) {
+            document.querySelectorAll('#cleanBar').forEach(el => el.style.width = data.clean + '%');
+            document.querySelectorAll('#cleanValue').forEach(el => el.textContent = data.clean + '%');
+        }
+        if (data.boredom !== undefined) {
+            document.querySelectorAll('#boredomBar').forEach(el => el.style.width = data.boredom + '%');
+            document.querySelectorAll('#boredomValue').forEach(el => el.textContent = data.boredom + '%');
+        }
+        if (data.energy !== undefined) {
+            document.querySelectorAll('#energyBar').forEach(el => el.style.width = data.energy + '%');
+            document.querySelectorAll('#energyValue').forEach(el => el.textContent = data.energy + '%');
+        }
+    }
+
+    // === Часы ===
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('clockDisplay').textContent = h + ':' + m;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // === Индикатор комнат (свайп) ===
+    const wrapper = document.getElementById('roomsWrapper');
+    const dots = document.querySelectorAll('.room-dot');
+
+    wrapper.addEventListener('scroll', function() {
+        const index = Math.round(this.scrollLeft / this.clientWidth);
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    });
+
+    // Клик по точке для переключения комнаты
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', function() {
+            wrapper.scrollTo({ left: i * wrapper.clientWidth, behavior: 'smooth' });
+        });
+    });
+
+    // === Уведомления ===
+    function showToast(text) {
+        const toast = document.getElementById('toast');
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
+    }
+
+    // === Отправка геолокации ===
+    function sendLocation() {
+        if (!navigator.geolocation) {
+            showToast('❌ Геолокация не поддерживается');
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                if (tg) {
+                    tg.sendData(JSON.stringify({
+                        action: 'location',
+                        latitude: lat,
+                        longitude: lon,
+                        timezone: tz
+                    }));
+                    showToast('🌍 Геолокация отправлена!');
+                } else {
+                    showToast('🔧 Тест: широта ' + lat + ', долгота ' + lon);
+                }
+            },
+            (err) => {
+                showToast('❌ Не удалось определить геолокацию');
+                console.error(err);
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+        );
+    }
+
+    // Отправляем геолокацию при загрузке (если есть Telegram WebApp)
+    if (tg) {
+        setTimeout(sendLocation, 1500);
+    }
+
+    // === Enter для доски ===
+    document.getElementById('boardInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendBoardMessage();
+    });
+
+    console.log('❤️ Love Pet WebApp загружена!');
+</script>
+
+</body>
+                </html>        .action-btn {
             background: white;
             border: none;
             padding: 14px 0;
